@@ -143,7 +143,7 @@
     ],
     "meta": {
         "type": "Converter from SU",
-        "version": "1.4.3",
+        "version": "2.0.1",
         "author": "Anton Shefov <a.shefov@gmail.com>",
         "desc": "Converter from SmartUnity any object types",
         "keywords": "SmartUnity, SU",
@@ -173,458 +173,483 @@
     },
     "flow": [
         {
-            "id": "ce1e41fc6c3340ec",
-            "type": "template",
-            "z": "e0c1caa793877c9f",
-            "name": "Waiting",
-            "field": "payload",
-            "fieldType": "msg",
-            "format": "json",
-            "syntax": "plain",
-            "template": "{ \"fill\": \"grey\", \"shape\": \"ring\", \"text\": \"waiting\" }",
-            "output": "json",
-            "x": 660,
-            "y": 380,
-            "wires": [
-                []
-            ]
-        },
-        {
-            "id": "35e771ba8289fe66",
-            "type": "inject",
-            "z": "e0c1caa793877c9f",
-            "name": "",
-            "props": [
-                {
-                    "p": "payload"
-                }
-            ],
-            "repeat": "",
-            "crontab": "",
-            "once": true,
-            "onceDelay": 0.1,
-            "topic": "",
-            "payload": "true",
-            "payloadType": "bool",
-            "x": 490,
-            "y": 380,
-            "wires": [
-                [
-                    "ce1e41fc6c3340ec"
-                ]
-            ]
-        },
-        {
-            "id": "1e35e204838e4767",
-            "type": "switch",
-            "z": "e0c1caa793877c9f",
-            "name": "",
-            "property": "ADDRESSES",
-            "propertyType": "env",
-            "rules": [
-                {
-                    "t": "hask",
-                    "v": "topic",
-                    "vt": "msg"
-                }
-            ],
-            "checkall": "true",
-            "repair": false,
-            "outputs": 1,
-            "x": 155,
-            "y": 220,
-            "wires": [
-                [
-                    "ed97d9fa9e66e15f"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "ddb7426ddd920cda",
-            "type": "switch",
-            "z": "e0c1caa793877c9f",
-            "name": "",
-            "property": "SYSTEM",
-            "propertyType": "env",
-            "rules": [
-                {
-                    "t": "eq",
-                    "v": "knx",
-                    "vt": "str"
-                },
-                {
-                    "t": "eq",
-                    "v": "wb",
-                    "vt": "str"
-                },
-                {
-                    "t": "eq",
-                    "v": "other",
-                    "vt": "str"
-                }
-            ],
-            "checkall": "false",
-            "repair": false,
-            "outputs": 3,
-            "x": 775,
-            "y": 220,
-            "wires": [
-                [
-                    "4465afa441eab6f6"
-                ],
-                [
-                    "1a64b68c304f5f9d"
-                ],
-                [
-                    "5887dc0d939d4b9d"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "1a64b68c304f5f9d",
-            "type": "change",
-            "z": "e0c1caa793877c9f",
-            "name": "",
-            "rules": [
-                {
-                    "t": "delete",
-                    "p": "dpt",
-                    "pt": "msg"
-                },
-                {
-                    "t": "delete",
-                    "p": "destination",
-                    "pt": "msg"
-                }
-            ],
-            "action": "",
-            "property": "",
-            "from": "",
-            "to": "",
-            "reg": false,
-            "x": 875,
-            "y": 220,
-            "wires": [
-                []
-            ],
-            "l": false
-        },
-        {
-            "id": "5887dc0d939d4b9d",
-            "type": "change",
-            "z": "e0c1caa793877c9f",
-            "name": "",
-            "rules": [
-                {
-                    "t": "delete",
-                    "p": "dpt",
-                    "pt": "msg"
-                },
-                {
-                    "t": "delete",
-                    "p": "destination",
-                    "pt": "msg"
-                }
-            ],
-            "action": "",
-            "property": "",
-            "from": "",
-            "to": "",
-            "reg": false,
-            "x": 875,
-            "y": 280,
-            "wires": [
-                []
-            ],
-            "l": false
-        },
-        {
-            "id": "4465afa441eab6f6",
-            "type": "switch",
-            "z": "e0c1caa793877c9f",
-            "name": "",
-            "property": "payload.dpt",
-            "propertyType": "msg",
-            "rules": [
-                {
-                    "t": "eq",
-                    "v": "9.001",
-                    "vt": "str"
-                },
-                {
-                    "t": "eq",
-                    "v": "5.001",
-                    "vt": "str"
-                },
-                {
-                    "t": "else"
-                }
-            ],
-            "checkall": "false",
-            "repair": false,
-            "outputs": 3,
-            "x": 875,
-            "y": 160,
-            "wires": [
-                [
-                    "107046a35c83b159"
-                ],
-                [
-                    "107046a35c83b159"
-                ],
-                []
-            ],
-            "l": false
-        },
-        {
-            "id": "107046a35c83b159",
-            "type": "rbe",
-            "z": "e0c1caa793877c9f",
-            "name": "",
-            "func": "rbe",
-            "gap": "",
-            "start": "",
-            "inout": "out",
-            "septopics": true,
-            "property": "payload",
-            "topi": "topic",
-            "x": 975,
-            "y": 160,
-            "wires": [
-                []
-            ],
-            "l": false
-        },
-        {
-            "id": "f518fbd774d4bfcb",
-            "type": "function",
-            "z": "e0c1caa793877c9f",
-            "name": "Parser",
-            "func": "const addresses = env.get('ADDRESSES');\nconst types = env.get('TYPES');\nvar new_msg = {};\nvar send = false;\nvar error = false;\nvar status = \"\";\n\n\nnew_msg.topic = addresses[msg.topic];\nswitch (types[msg.topic]) {\n    case \"T_SWITCH_BUTTON\":\n        if (msg.payload.cmd == 1 && msg.payload.value == 15) {\n            new_msg.payload = true;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        } else if (msg.payload.cmd == 1 && msg.payload.value == 16) {\n            new_msg.payload = false;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        }\n        break;\n    case \"T_UNIV_AN_INPUT\":\n        new_msg.payload = Number(msg.payload.value) / Number(env.get(\"DIVIDER\"));\n        new_msg.setpoint = Number(msg.payload.setpoint) / Number(env.get(\"DIVIDER\"));\n        new_msg.status = Number(msg.payload.status);\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"9.001\";\n            send = true;\n        }\n        break;\n    case \"T_UNIV_AN_INPUT_value\":\n        new_msg.payload = Number(msg.payload.value) / Number(env.get(\"DIVIDER\"));\n        new_msg.status = Number(msg.payload.status);\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"9.001\";\n            send = true;\n        }\n        break;\n    case \"T_UNIV_AN_INPUT_setpoint\":\n        new_msg.payload = Number(msg.payload.setpoint) / Number(env.get(\"DIVIDER\"));\n        new_msg.status = Number(msg.payload.status);\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"9.001\";\n            send = true;\n        }\n        break;\n    case \"T_RELE\":\n        if (msg.payload.cmd == 23 && msg.payload.value == 7) {\n            new_msg.payload = true;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        } else if (msg.payload.cmd == 24 && msg.payload.value == 6) {\n            new_msg.payload = false;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        }\n        break;\n    case \"T_UNIV_AN_OUTPUT\":\n        new_msg.payload = Number(msg.payload.value) / Number(env.get(\"DIVIDER\"));\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"5.001\";\n            send = true;\n        }\n        break;\n    case \"T_HELP_SWITCH\":\n        if (msg.payload.cmd == 17 && msg.payload.value == 21) {\n            new_msg.payload = true;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        } else if (msg.payload.cmd == 17 && msg.payload.value == 22) {\n            new_msg.payload = false;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        }\n        break;\n    case \"T_HELP_OBJECT\":\n        new_msg.payload = Number(msg.payload.value) + Number(env.get('HELP_OBJECT_SHIFT'));\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"5.001\";\n            send = true;\n        }\n        break;\n    case \"T_UP_DOWN_2_RELE\":\n        new_msg.payload = Number(msg.payload.value);\n        switch (new_msg.payload) {\n            case 8:\n                new_msg.status = \"open\";\n                break;\n            case 9:\n                new_msg.status = \"close\";\n                break;\n            case 11:\n                new_msg.status = \"opened\";\n                break;\n            case 14:\n                new_msg.status = \"closed\";\n                break;\n        }\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"5.001\";\n            send = true;\n        }\n        break;\n    case \"T_HELP_OBJECT_TO_T_UNIV_AN_OUTPUT\":\n        new_msg.payload = Math.round((Number(msg.payload.value) - 1) * 33.3);\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"5.001\";\n            send = true;\n        }\n        break;\n    case \"T_COMMON_TIMER\":\n        if (msg.payload.value == 21) {\n            new_msg.payload = true;\n        } else if (msg.payload.value == 22) {\n            new_msg.payload = false;\n        }\n        new_msg.addition = msg.payload;\n        new_msg.dpt = \"1.001\";\n        send = true;\n        break;\n    case \"T_INTERVAL_TIMER\":\n        if (msg.payload.value == 21) {\n            new_msg.payload = true;\n        } else if (msg.payload.value == 22) {\n            new_msg.payload = false;\n        }\n        new_msg.addition = msg.payload;\n        new_msg.dpt = \"1.001\";\n        send = true;\n        break;\n    case \"T_ENERGY_METER\":\n        new_msg.payload = Number(msg.payload.value);\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"9.001\";\n            send = true;\n        }\n        break;\n    default:\n        error = true;\n        status = 'Unknown object type: ';\n        break;\n}\n\nstatus = status + new_msg.topic + \": \" + new_msg.payload;\n\nif (!error) {\n    if (send) {\n        new_msg.destination = new_msg.topic;\n        return [new_msg, { \"payload\": { fill: \"green\", shape: \"dot\", text: status } }];\n    }\n} else {\n    return [null, { \"payload\": { fill: \"red\", shape: \"ring\", text: \"Error! \" + status } }]\n}",
-            "outputs": 2,
-            "timeout": "",
-            "noerr": 0,
-            "initialize": "",
-            "finalize": "",
-            "libs": [],
-            "x": 650,
-            "y": 220,
-            "wires": [
-                [
-                    "ddb7426ddd920cda"
-                ],
-                []
-            ]
-        },
-        {
-            "id": "ed97d9fa9e66e15f",
-            "type": "switch",
-            "z": "e0c1caa793877c9f",
-            "name": "",
-            "property": "len",
-            "propertyType": "msg",
-            "rules": [
-                {
-                    "t": "eq",
-                    "v": "4",
-                    "vt": "num"
-                },
-                {
-                    "t": "eq",
-                    "v": "2",
-                    "vt": "num"
-                },
-                {
-                    "t": "eq",
-                    "v": "8",
-                    "vt": "num"
-                },
-                {
-                    "t": "eq",
-                    "v": "34",
-                    "vt": "num"
-                }
-            ],
-            "checkall": "false",
-            "repair": false,
-            "outputs": 4,
-            "x": 235,
-            "y": 220,
-            "wires": [
-                [
-                    "c7dc36771c1f15d5"
-                ],
-                [
-                    "d69027b5847e4ac7"
-                ],
-                [
-                    "e7171beed9b2669b"
-                ],
-                [
-                    "ce6dec09f7dbc76c"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "d69027b5847e4ac7",
-            "type": "binary",
-            "z": "e0c1caa793877c9f",
-            "name": "2 byte",
-            "property": "payload",
-            "pattern": "x16, l16 => cmd, x48, l16=> value",
-            "x": 370,
-            "y": 140,
-            "wires": [
-                [
-                    "f518fbd774d4bfcb"
-                ]
-            ]
-        },
-        {
-            "id": "e7171beed9b2669b",
-            "type": "binary",
-            "z": "e0c1caa793877c9f",
-            "name": "8 byte",
-            "property": "payload",
-            "pattern": "x16, l16 => cmd, x48, l16=> status, l16=> value, l16=>setpoint",
-            "x": 370,
-            "y": 200,
-            "wires": [
-                [
-                    "f518fbd774d4bfcb"
-                ]
-            ]
-        },
-        {
-            "id": "ce6dec09f7dbc76c",
-            "type": "switch",
-            "z": "e0c1caa793877c9f",
-            "name": "",
-            "property": "$lookup($env('TYPES'), msg.topic)",
-            "propertyType": "jsonata",
-            "rules": [
-                {
-                    "t": "eq",
-                    "v": "T_COMMON_TIMER",
-                    "vt": "str"
-                },
-                {
-                    "t": "eq",
-                    "v": "T_INTERVAL_TIMER",
-                    "vt": "str"
-                }
-            ],
-            "checkall": "false",
-            "repair": false,
-            "outputs": 2,
-            "x": 235,
-            "y": 300,
-            "wires": [
-                [
-                    "092a6461c9a9086e"
-                ],
-                [
-                    "8ad38afe4fa02d85"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "092a6461c9a9086e",
-            "type": "binary",
-            "z": "e0c1caa793877c9f",
-            "name": "T_COMMON_TIMER",
-            "property": "payload",
-            "pattern": "x16, l16 => cmd, x48, l16=> value, l16=>count, l16=>mask_wYear, l16=>mask_wMonth, l16=>mask_wDay, x16, l16=>mask_wHour, l16=>mask_wMin, l16=>mask_wDayOfWeek, l16=>cur_wYear, l16=>cur_wMonth, l16=>cur_wDayOfWeek, l16=>cur_wDay, l16=>cur_wHour, l16=>cur_wMin, l16=>cur_wSec, l16=>cur_wMil",
-            "x": 420,
-            "y": 260,
-            "wires": [
-                [
-                    "f518fbd774d4bfcb"
-                ]
-            ]
-        },
-        {
-            "id": "8ad38afe4fa02d85",
-            "type": "binary",
-            "z": "e0c1caa793877c9f",
-            "name": "T_INTERVAL_TIMER",
-            "property": "payload",
-            "pattern": "x16, l16 => cmd, x48, l16=> value, l16=>count, l16=>int_wDay, l16=>int_wHour, l16=>int_wMin, l16=>int_wSec, l16=>int_wMil, l16=>elap_wDay, l16=>elap_wHour, l16=>elap_wMin, l16=>elap_wSec, l16=>elap_wMil, l16=>rem_wDay, l16=>rem_wHour, l16=>rem_wMin, l16=>rem_wSec, l16=>rem_wMil",
-            "x": 420,
-            "y": 320,
-            "wires": [
-                [
-                    "f518fbd774d4bfcb"
-                ]
-            ]
-        },
-        {
-            "id": "c7dc36771c1f15d5",
-            "type": "binary",
-            "z": "e0c1caa793877c9f",
-            "name": "4 byte",
-            "property": "payload",
-            "pattern": "x16, l16 => cmd, x48, l32=> value",
-            "x": 370,
-            "y": 80,
-            "wires": [
-                [
-                    "c67ee5bc024c928f"
-                ]
-            ]
-        },
-        {
-            "id": "c67ee5bc024c928f",
-            "type": "change",
-            "z": "e0c1caa793877c9f",
-            "name": "",
-            "rules": [
-                {
-                    "t": "set",
-                    "p": "payload.value",
-                    "pt": "msg",
-                    "to": "$formatBase(payload.value, 16)\t",
-                    "tot": "jsonata"
-                }
-            ],
-            "action": "",
-            "property": "",
-            "from": "",
-            "to": "",
-            "reg": false,
-            "x": 495,
-            "y": 80,
-            "wires": [
-                [
-                    "770e7f66ab7acc84"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "770e7f66ab7acc84",
-            "type": "function",
-            "z": "e0c1caa793877c9f",
-            "name": "IEEE 754",
-            "func": "let hexString = msg.payload.value;\nlet binaryString = '';\nfor (let i = 0; i < hexString.length; i++) {\n    const hexChar = hexString[i];\n    const binChar = parseInt(hexChar, 16).toString(2).padStart(4, '0');\n    binaryString += binChar;\n}\n\n// Разбираем биты IEEE 754:\n// 1 бит знака | 8 бит экспоненты | 23 бита мантиссы\nconst signBit = binaryString[0] === '1' ? -1 : 1;\nconst exponentBits = binaryString.substr(1, 8);\nconst mantissaBits = binaryString.substr(9);\n\n// Преобразуем экспоненту (смещение 127)\nconst exponent = parseInt(exponentBits, 2) - 127;\n\n// Преобразуем мантиссу (добавляем неявную ведущую 1)\nlet mantissa = 1; // Неявная ведущая 1\nfor (let i = 0; i < mantissaBits.length; i++) {\n    mantissa += mantissaBits[i] === '1' ? Math.pow(2, -(i + 1)) : 0;\n}\n\n// Вычисляем итоговое число\nmsg.payload.value =  signBit * mantissa * Math.pow(2, exponent);\nreturn msg;",
-            "outputs": 1,
-            "timeout": 0,
-            "noerr": 0,
-            "initialize": "",
-            "finalize": "",
-            "libs": [],
-            "x": 575,
-            "y": 80,
-            "wires": [
-                [
-                    "f518fbd774d4bfcb"
-                ]
-            ],
-            "l": false
-        }
+			"id": "ce1e41fc6c3340ec",
+			"type": "template",
+			"z": "e0c1caa793877c9f",
+			"name": "Waiting",
+			"field": "payload",
+			"fieldType": "msg",
+			"format": "json",
+			"syntax": "plain",
+			"template": "{ \"fill\": \"grey\", \"shape\": \"ring\", \"text\": \"waiting\" }",
+			"output": "json",
+			"x": 660,
+			"y": 380,
+			"wires": [
+				[]
+			]
+		},
+		{
+			"id": "35e771ba8289fe66",
+			"type": "inject",
+			"z": "e0c1caa793877c9f",
+			"name": "",
+			"props": [
+				{
+					"p": "payload"
+				}
+			],
+			"repeat": "",
+			"crontab": "",
+			"once": true,
+			"onceDelay": 0.1,
+			"topic": "",
+			"payload": "true",
+			"payloadType": "bool",
+			"x": 490,
+			"y": 380,
+			"wires": [
+				[
+					"ce1e41fc6c3340ec"
+				]
+			]
+		},
+		{
+			"id": "1e35e204838e4767",
+			"type": "switch",
+			"z": "e0c1caa793877c9f",
+			"name": "",
+			"property": "ADDRESSES",
+			"propertyType": "env",
+			"rules": [
+				{
+					"t": "hask",
+					"v": "topic",
+					"vt": "msg"
+				}
+			],
+			"checkall": "true",
+			"repair": false,
+			"outputs": 1,
+			"x": 155,
+			"y": 220,
+			"wires": [
+				[
+					"ed97d9fa9e66e15f"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "ddb7426ddd920cda",
+			"type": "switch",
+			"z": "e0c1caa793877c9f",
+			"name": "",
+			"property": "SYSTEM",
+			"propertyType": "env",
+			"rules": [
+				{
+					"t": "eq",
+					"v": "knx",
+					"vt": "str"
+				},
+				{
+					"t": "eq",
+					"v": "wb",
+					"vt": "str"
+				},
+				{
+					"t": "eq",
+					"v": "other",
+					"vt": "str"
+				}
+			],
+			"checkall": "false",
+			"repair": false,
+			"outputs": 3,
+			"x": 775,
+			"y": 220,
+			"wires": [
+				[
+					"4465afa441eab6f6"
+				],
+				[
+					"1a64b68c304f5f9d"
+				],
+				[
+					"5887dc0d939d4b9d"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "1a64b68c304f5f9d",
+			"type": "change",
+			"z": "e0c1caa793877c9f",
+			"name": "",
+			"rules": [
+				{
+					"t": "delete",
+					"p": "dpt",
+					"pt": "msg"
+				},
+				{
+					"t": "delete",
+					"p": "destination",
+					"pt": "msg"
+				}
+			],
+			"action": "",
+			"property": "",
+			"from": "",
+			"to": "",
+			"reg": false,
+			"x": 875,
+			"y": 220,
+			"wires": [
+				[]
+			],
+			"l": false
+		},
+		{
+			"id": "5887dc0d939d4b9d",
+			"type": "change",
+			"z": "e0c1caa793877c9f",
+			"name": "",
+			"rules": [
+				{
+					"t": "delete",
+					"p": "dpt",
+					"pt": "msg"
+				},
+				{
+					"t": "delete",
+					"p": "destination",
+					"pt": "msg"
+				}
+			],
+			"action": "",
+			"property": "",
+			"from": "",
+			"to": "",
+			"reg": false,
+			"x": 875,
+			"y": 280,
+			"wires": [
+				[]
+			],
+			"l": false
+		},
+		{
+			"id": "4465afa441eab6f6",
+			"type": "switch",
+			"z": "e0c1caa793877c9f",
+			"name": "",
+			"property": "payload.dpt",
+			"propertyType": "msg",
+			"rules": [
+				{
+					"t": "eq",
+					"v": "9.001",
+					"vt": "str"
+				},
+				{
+					"t": "eq",
+					"v": "5.001",
+					"vt": "str"
+				},
+				{
+					"t": "else"
+				}
+			],
+			"checkall": "false",
+			"repair": false,
+			"outputs": 3,
+			"x": 875,
+			"y": 160,
+			"wires": [
+				[
+					"107046a35c83b159"
+				],
+				[
+					"107046a35c83b159"
+				],
+				[]
+			],
+			"l": false
+		},
+		{
+			"id": "107046a35c83b159",
+			"type": "rbe",
+			"z": "e0c1caa793877c9f",
+			"name": "",
+			"func": "rbe",
+			"gap": "",
+			"start": "",
+			"inout": "out",
+			"septopics": true,
+			"property": "payload",
+			"topi": "topic",
+			"x": 975,
+			"y": 160,
+			"wires": [
+				[]
+			],
+			"l": false
+		},
+		{
+			"id": "f518fbd774d4bfcb",
+			"type": "function",
+			"z": "e0c1caa793877c9f",
+			"name": "Parser",
+			"func": "const addresses = env.get('ADDRESSES');\nconst types = env.get('TYPES');\nvar new_msg = {};\nvar send = false;\nvar error = false;\nvar status = \"\";\n\n\nnew_msg.topic = addresses[msg.topic];\nswitch (types[msg.topic]) {\n    case \"T_SWITCH_BUTTON\":\n        if (msg.payload.cmd == 1 && msg.payload.value == 15) {\n            new_msg.payload = true;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        } else if (msg.payload.cmd == 1 && msg.payload.value == 16) {\n            new_msg.payload = false;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        }\n        break;\n    case \"T_UNIV_AN_INPUT\":\n        new_msg.payload = Number(msg.payload.value) / Number(env.get(\"DIVIDER\"));\n        new_msg.setpoint = Number(msg.payload.setpoint) / Number(env.get(\"DIVIDER\"));\n        new_msg.status = Number(msg.payload.status);\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"9.001\";\n            send = true;\n        }\n        break;\n    case \"T_UNIV_AN_INPUT_value\":\n        new_msg.payload = Number(msg.payload.value) / Number(env.get(\"DIVIDER\"));\n        new_msg.status = Number(msg.payload.status);\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"9.001\";\n            send = true;\n        }\n        break;\n    case \"T_UNIV_AN_INPUT_setpoint\":\n        new_msg.payload = Number(msg.payload.setpoint) / Number(env.get(\"DIVIDER\"));\n        new_msg.status = Number(msg.payload.status);\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"9.001\";\n            send = true;\n        }\n        break;\n    case \"T_RELE\":\n        if (msg.payload.cmd == 23 && msg.payload.value == 7) {\n            new_msg.payload = true;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        } else if (msg.payload.cmd == 24 && msg.payload.value == 6) {\n            new_msg.payload = false;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        }\n        break;\n    case \"T_UNIV_AN_OUTPUT\":\n        new_msg.payload = Number(msg.payload.value) / Number(env.get(\"DIVIDER\"));\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"5.001\";\n            send = true;\n        }\n        break;\n    case \"T_HELP_SWITCH\":\n        if (msg.payload.cmd == 17 && msg.payload.value == 21) {\n            new_msg.payload = true;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        } else if (msg.payload.cmd == 17 && msg.payload.value == 22) {\n            new_msg.payload = false;\n            new_msg.dpt = \"1.001\";\n            send = true;\n        }\n        break;\n    case \"T_HELP_OBJECT\":\n        new_msg.payload = Number(msg.payload.value) + Number(env.get('HELP_OBJECT_SHIFT'));\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"5.001\";\n            send = true;\n        }\n        break;\n    case \"T_UP_DOWN_2_RELE\":\n        new_msg.payload = Number(msg.payload.value);\n        switch (new_msg.payload) {\n            case 8:\n                new_msg.status = \"open\";\n                break;\n            case 9:\n                new_msg.status = \"close\";\n                break;\n            case 11:\n                new_msg.status = \"opened\";\n                break;\n            case 14:\n                new_msg.status = \"closed\";\n                break;\n        }\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"5.001\";\n            send = true;\n        }\n        break;\n    case \"T_HELP_OBJECT_TO_T_UNIV_AN_OUTPUT\":\n        new_msg.payload = Math.round((Number(msg.payload.value) - 1) * 33.3);\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"5.001\";\n            send = true;\n        }\n        break;\n    case \"T_COMMON_TIMER\":\n        if (msg.payload.value == 21) {\n            new_msg.payload = true;\n        } else if (msg.payload.value == 22) {\n            new_msg.payload = false;\n        }\n        new_msg.addition = msg.payload;\n        new_msg.dpt = \"1.001\";\n        send = true;\n        break;\n    case \"T_INTERVAL_TIMER\":\n        if (msg.payload.value == 21) {\n            new_msg.payload = true;\n        } else if (msg.payload.value == 22) {\n            new_msg.payload = false;\n        }\n        new_msg.addition = msg.payload;\n        new_msg.dpt = \"1.001\";\n        send = true;\n        break;\n    case \"T_ENERGY_METER\":\n        new_msg.payload = Number(msg.payload.value);\n        if (isNaN(new_msg.payload)) {\n            error = true;\n        } else {\n            new_msg.dpt = \"9.001\";\n            send = true;\n        }\n        break;\n    default:\n        error = true;\n        status = 'Unknown object type: ';\n        break;\n}\n\nstatus = status + new_msg.topic + \": \" + new_msg.payload;\n\nif (!error) {\n    if (send) {\n        new_msg.destination = new_msg.topic;\n        return [new_msg, { \"payload\": { fill: \"green\", shape: \"dot\", text: status } }];\n    }\n} else {\n    return [null, { \"payload\": { fill: \"red\", shape: \"ring\", text: \"Error! \" + status } }]\n}",
+			"outputs": 2,
+			"timeout": "",
+			"noerr": 0,
+			"initialize": "",
+			"finalize": "",
+			"libs": [],
+			"x": 650,
+			"y": 220,
+			"wires": [
+				[
+					"ddb7426ddd920cda"
+				],
+				[]
+			]
+		},
+		{
+			"id": "ed97d9fa9e66e15f",
+			"type": "switch",
+			"z": "e0c1caa793877c9f",
+			"name": "",
+			"property": "len",
+			"propertyType": "msg",
+			"rules": [
+				{
+					"t": "eq",
+					"v": "4",
+					"vt": "num"
+				},
+				{
+					"t": "eq",
+					"v": "2",
+					"vt": "num"
+				},
+				{
+					"t": "eq",
+					"v": "8",
+					"vt": "num"
+				},
+				{
+					"t": "eq",
+					"v": "34",
+					"vt": "num"
+				}
+			],
+			"checkall": "false",
+			"repair": false,
+			"outputs": 4,
+			"x": 235,
+			"y": 220,
+			"wires": [
+				[
+					"a42e117ce5cfe1a6"
+				],
+				[
+					"11909eab66434506"
+				],
+				[
+					"41dcdaa2f12df532"
+				],
+				[
+					"ce6dec09f7dbc76c"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "ce6dec09f7dbc76c",
+			"type": "switch",
+			"z": "e0c1caa793877c9f",
+			"name": "",
+			"property": "$lookup($env('TYPES'), msg.topic)",
+			"propertyType": "jsonata",
+			"rules": [
+				{
+					"t": "eq",
+					"v": "T_COMMON_TIMER",
+					"vt": "str"
+				},
+				{
+					"t": "eq",
+					"v": "T_INTERVAL_TIMER",
+					"vt": "str"
+				}
+			],
+			"checkall": "false",
+			"repair": false,
+			"outputs": 2,
+			"x": 235,
+			"y": 300,
+			"wires": [
+				[
+					"ae6dbea070789109"
+				],
+				[
+					"9f128b46d782a946"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "c67ee5bc024c928f",
+			"type": "change",
+			"z": "e0c1caa793877c9f",
+			"name": "",
+			"rules": [
+				{
+					"t": "set",
+					"p": "payload.value",
+					"pt": "msg",
+					"to": "$formatBase(payload.value, 16)\t",
+					"tot": "jsonata"
+				}
+			],
+			"action": "",
+			"property": "",
+			"from": "",
+			"to": "",
+			"reg": false,
+			"x": 495,
+			"y": 80,
+			"wires": [
+				[
+					"770e7f66ab7acc84"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "770e7f66ab7acc84",
+			"type": "function",
+			"z": "e0c1caa793877c9f",
+			"name": "IEEE 754",
+			"func": "let hexString = msg.payload.value;\nlet binaryString = '';\nfor (let i = 0; i < hexString.length; i++) {\n    const hexChar = hexString[i];\n    const binChar = parseInt(hexChar, 16).toString(2).padStart(4, '0');\n    binaryString += binChar;\n}\n\n// Разбираем биты IEEE 754:\n// 1 бит знака | 8 бит экспоненты | 23 бита мантиссы\nconst signBit = binaryString[0] === '1' ? -1 : 1;\nconst exponentBits = binaryString.substr(1, 8);\nconst mantissaBits = binaryString.substr(9);\n\n// Преобразуем экспоненту (смещение 127)\nconst exponent = parseInt(exponentBits, 2) - 127;\n\n// Преобразуем мантиссу (добавляем неявную ведущую 1)\nlet mantissa = 1; // Неявная ведущая 1\nfor (let i = 0; i < mantissaBits.length; i++) {\n    mantissa += mantissaBits[i] === '1' ? Math.pow(2, -(i + 1)) : 0;\n}\n\n// Вычисляем итоговое число\nmsg.payload.value =  signBit * mantissa * Math.pow(2, exponent);\nreturn msg;",
+			"outputs": 1,
+			"timeout": 0,
+			"noerr": 0,
+			"initialize": "",
+			"finalize": "",
+			"libs": [],
+			"x": 575,
+			"y": 80,
+			"wires": [
+				[
+					"f518fbd774d4bfcb"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "11909eab66434506",
+			"type": "function",
+			"z": "e0c1caa793877c9f",
+			"name": "2 byte",
+			"func": "// Функция для разбора бинарного буфера в JSON\n// Основана на настраиваемой схеме полей (массив `fields`)\n// Поддерживаемые типы:\n//   - uint8, uint16le, uint16be, uint32le, uint32be\n//   - int8, int16le, int16be, int32le, int32be\n//   - string (требует `length` и опционально `encoding`, по умолчанию 'ascii')\n//   - bytes (возвращает Buffer, требует `length`)\n//   - skip (пропускает байты, не создаёт поля)\n\n// ===== НАСТРОЙКА СХЕМЫ =====\nvar fields = [\n    // Примеры (раскомментируйте и измените под свою задачу):\n    // { name: 'header',  offset: 0, type: 'uint8' },\n    // { name: 'length',  offset: 1, type: 'uint16le' },\n    // { name: 'data',    offset: 3, type: 'bytes', length: 10 },\n    // { name: 'message', offset: 13, type: 'string', length: 20, encoding: 'utf8' },\n    // { name: 'checksum',offset: 33, type: 'uint16be' }\n    { name: 'cmd', offset: 2, type: 'uint16le' },\n    { name: 'value', offset: 10, type: 'uint16le' }\n];\n\nif (!Buffer.isBuffer(msg.payload)) {\n    node.error(\"Входной payload не является Buffer\", msg);\n    return null;\n}\n\nvar buffer = msg.payload;\nvar result = {};\n\ntry {\n    for (var i = 0; i < fields.length; i++) {\n        var field = fields[i];\n        var offset = field.offset;\n        var type = field.type;\n        var name = field.name;\n        var length = field.length; // для string, bytes, skip\n\n        // Определяем размер поля в байтах для проверки границ\n        var size;\n        if (type === 'uint8' || type === 'int8') {\n            size = 1;\n        } else if (type === 'uint16le' || type === 'uint16be' || type === 'int16le' || type === 'int16be') {\n            size = 2;\n        } else if (type === 'uint32le' || type === 'uint32be' || type === 'int32le' || type === 'int32be') {\n            size = 4;\n        } else if (type === 'string' || type === 'bytes' || type === 'skip') {\n            if (length === undefined) {\n                throw new Error(\"Поле '\" + (name || 'skip') + \"' требует указания length\");\n            }\n            size = length;\n        } else {\n            throw new Error(\"Неподдерживаемый тип: \" + type);\n        }\n\n        // Проверяем, что буфер содержит достаточно данных\n        if (offset + size > buffer.length) {\n            throw new Error(\"Буфер слишком короткий для поля '\" + (name || 'skip') + \"' по смещению \" + offset + \" (требуется \" + size + \" байт)\");\n        }\n\n        // Чтение значения\n        var value;\n        if (type === 'uint8') {\n            value = buffer.readUInt8(offset);\n        } else if (type === 'uint16le') {\n            value = buffer.readUInt16LE(offset);\n        } else if (type === 'uint16be') {\n            value = buffer.readUInt16BE(offset);\n        } else if (type === 'uint32le') {\n            value = buffer.readUInt32LE(offset);\n        } else if (type === 'uint32be') {\n            value = buffer.readUInt32BE(offset);\n        } else if (type === 'int8') {\n            value = buffer.readInt8(offset);\n        } else if (type === 'int16le') {\n            value = buffer.readInt16LE(offset);\n        } else if (type === 'int16be') {\n            value = buffer.readInt16BE(offset);\n        } else if (type === 'int32le') {\n            value = buffer.readInt32LE(offset);\n        } else if (type === 'int32be') {\n            value = buffer.readInt32BE(offset);\n        } else if (type === 'string') {\n            var encoding = field.encoding || 'ascii';\n            value = buffer.toString(encoding, offset, offset + length);\n        } else if (type === 'bytes') {\n            value = buffer.slice(offset, offset + length);\n        } else if (type === 'skip') {\n            continue; // ничего не сохраняем\n        }\n\n        // Для всех полей, кроме skip, добавляем значение в результат\n        // @ts-ignore\n        if (type !== 'skip') {\n            if (!name) {\n                throw new Error(\"Поле с индексом \" + i + \" не имеет имени (и это не skip)\");\n            }\n            result[name] = value;\n        }\n    }\n} catch (err) {\n    node.error(\"Ошибка разбора: \" + err.message, msg);\n    return null;\n}\n\n// Заменяем payload на полученный объект и передаём дальше\nmsg.payload = result;\nreturn msg;",
+			"outputs": 1,
+			"timeout": 0,
+			"noerr": 0,
+			"initialize": "",
+			"finalize": "",
+			"libs": [],
+			"x": 390,
+			"y": 140,
+			"wires": [
+				[
+					"f518fbd774d4bfcb"
+				]
+			]
+		},
+		{
+			"id": "a42e117ce5cfe1a6",
+			"type": "function",
+			"z": "e0c1caa793877c9f",
+			"name": "4 byte",
+			"func": "// Функция для разбора бинарного буфера в JSON\n// Основана на настраиваемой схеме полей (массив `fields`)\n// Поддерживаемые типы:\n//   - uint8, uint16le, uint16be, uint32le, uint32be\n//   - int8, int16le, int16be, int32le, int32be\n//   - string (требует `length` и опционально `encoding`, по умолчанию 'ascii')\n//   - bytes (возвращает Buffer, требует `length`)\n//   - skip (пропускает байты, не создаёт поля)\n\n// ===== НАСТРОЙКА СХЕМЫ =====\nvar fields = [\n    // Примеры (раскомментируйте и измените под свою задачу):\n    // { name: 'header',  offset: 0, type: 'uint8' },\n    // { name: 'length',  offset: 1, type: 'uint16le' },\n    // { name: 'data',    offset: 3, type: 'bytes', length: 10 },\n    // { name: 'message', offset: 13, type: 'string', length: 20, encoding: 'utf8' },\n    // { name: 'checksum',offset: 33, type: 'uint16be' }\n    { name: 'cmd', offset: 2, type: 'uint16le' },\n    { name: 'value', offset: 10, type: 'uint32le' }\n];\n\nif (!Buffer.isBuffer(msg.payload)) {\n    node.error(\"Входной payload не является Buffer\", msg);\n    return null;\n}\n\nvar buffer = msg.payload;\nvar result = {};\n\ntry {\n    for (var i = 0; i < fields.length; i++) {\n        var field = fields[i];\n        var offset = field.offset;\n        var type = field.type;\n        var name = field.name;\n        var length = field.length; // для string, bytes, skip\n\n        // Определяем размер поля в байтах для проверки границ\n        var size;\n        if (type === 'uint8' || type === 'int8') {\n            size = 1;\n        } else if (type === 'uint16le' || type === 'uint16be' || type === 'int16le' || type === 'int16be') {\n            size = 2;\n        } else if (type === 'uint32le' || type === 'uint32be' || type === 'int32le' || type === 'int32be') {\n            size = 4;\n        } else if (type === 'string' || type === 'bytes' || type === 'skip') {\n            if (length === undefined) {\n                throw new Error(\"Поле '\" + (name || 'skip') + \"' требует указания length\");\n            }\n            size = length;\n        } else {\n            throw new Error(\"Неподдерживаемый тип: \" + type);\n        }\n\n        // Проверяем, что буфер содержит достаточно данных\n        if (offset + size > buffer.length) {\n            throw new Error(\"Буфер слишком короткий для поля '\" + (name || 'skip') + \"' по смещению \" + offset + \" (требуется \" + size + \" байт)\");\n        }\n\n        // Чтение значения\n        var value;\n        if (type === 'uint8') {\n            value = buffer.readUInt8(offset);\n        } else if (type === 'uint16le') {\n            value = buffer.readUInt16LE(offset);\n        } else if (type === 'uint16be') {\n            value = buffer.readUInt16BE(offset);\n        } else if (type === 'uint32le') {\n            value = buffer.readUInt32LE(offset);\n        } else if (type === 'uint32be') {\n            value = buffer.readUInt32BE(offset);\n        } else if (type === 'int8') {\n            value = buffer.readInt8(offset);\n        } else if (type === 'int16le') {\n            value = buffer.readInt16LE(offset);\n        } else if (type === 'int16be') {\n            value = buffer.readInt16BE(offset);\n        } else if (type === 'int32le') {\n            value = buffer.readInt32LE(offset);\n        } else if (type === 'int32be') {\n            value = buffer.readInt32BE(offset);\n        } else if (type === 'string') {\n            var encoding = field.encoding || 'ascii';\n            value = buffer.toString(encoding, offset, offset + length);\n        } else if (type === 'bytes') {\n            value = buffer.slice(offset, offset + length);\n        } else if (type === 'skip') {\n            continue; // ничего не сохраняем\n        }\n\n        // Для всех полей, кроме skip, добавляем значение в результат\n        // @ts-ignore\n        if (type !== 'skip') {\n            if (!name) {\n                throw new Error(\"Поле с индексом \" + i + \" не имеет имени (и это не skip)\");\n            }\n            result[name] = value;\n        }\n    }\n} catch (err) {\n    node.error(\"Ошибка разбора: \" + err.message, msg);\n    return null;\n}\n\n// Заменяем payload на полученный объект и передаём дальше\nmsg.payload = result;\nreturn msg;",
+			"outputs": 1,
+			"timeout": 0,
+			"noerr": 0,
+			"initialize": "",
+			"finalize": "",
+			"libs": [],
+			"x": 390,
+			"y": 80,
+			"wires": [
+				[
+					"c67ee5bc024c928f"
+				]
+			]
+		},
+		{
+			"id": "41dcdaa2f12df532",
+			"type": "function",
+			"z": "e0c1caa793877c9f",
+			"name": "6 byte",
+			"func": "// Функция для разбора бинарного буфера в JSON\n// Основана на настраиваемой схеме полей (массив `fields`)\n// Поддерживаемые типы:\n//   - uint8, uint16le, uint16be, uint32le, uint32be\n//   - int8, int16le, int16be, int32le, int32be\n//   - string (требует `length` и опционально `encoding`, по умолчанию 'ascii')\n//   - bytes (возвращает Buffer, требует `length`)\n//   - skip (пропускает байты, не создаёт поля)\n\n// ===== НАСТРОЙКА СХЕМЫ =====\nvar fields = [\n    // Примеры (раскомментируйте и измените под свою задачу):\n    // { name: 'header',  offset: 0, type: 'uint8' },\n    // { name: 'length',  offset: 1, type: 'uint16le' },\n    // { name: 'data',    offset: 3, type: 'bytes', length: 10 },\n    // { name: 'message', offset: 13, type: 'string', length: 20, encoding: 'utf8' },\n    // { name: 'checksum',offset: 33, type: 'uint16be' }\n    { name: 'cmd', offset: 2, type: 'uint16le' },\n    { name: 'status', offset: 10, type: 'uint16le' },\n    { name: 'value', offset: 12, type: 'uint16le' },\n    { name: 'setpoint', offset: 14, type: 'uint16le' }\n];\n\nif (!Buffer.isBuffer(msg.payload)) {\n    node.error(\"Входной payload не является Buffer\", msg);\n    return null;\n}\n\nvar buffer = msg.payload;\nvar result = {};\n\ntry {\n    for (var i = 0; i < fields.length; i++) {\n        var field = fields[i];\n        var offset = field.offset;\n        var type = field.type;\n        var name = field.name;\n        var length = field.length; // для string, bytes, skip\n\n        // Определяем размер поля в байтах для проверки границ\n        var size;\n        if (type === 'uint8' || type === 'int8') {\n            size = 1;\n        } else if (type === 'uint16le' || type === 'uint16be' || type === 'int16le' || type === 'int16be') {\n            size = 2;\n        } else if (type === 'uint32le' || type === 'uint32be' || type === 'int32le' || type === 'int32be') {\n            size = 4;\n        } else if (type === 'string' || type === 'bytes' || type === 'skip') {\n            if (length === undefined) {\n                throw new Error(\"Поле '\" + (name || 'skip') + \"' требует указания length\");\n            }\n            size = length;\n        } else {\n            throw new Error(\"Неподдерживаемый тип: \" + type);\n        }\n\n        // Проверяем, что буфер содержит достаточно данных\n        if (offset + size > buffer.length) {\n            throw new Error(\"Буфер слишком короткий для поля '\" + (name || 'skip') + \"' по смещению \" + offset + \" (требуется \" + size + \" байт)\");\n        }\n\n        // Чтение значения\n        var value;\n        if (type === 'uint8') {\n            value = buffer.readUInt8(offset);\n        } else if (type === 'uint16le') {\n            value = buffer.readUInt16LE(offset);\n        } else if (type === 'uint16be') {\n            value = buffer.readUInt16BE(offset);\n        } else if (type === 'uint32le') {\n            value = buffer.readUInt32LE(offset);\n        } else if (type === 'uint32be') {\n            value = buffer.readUInt32BE(offset);\n        } else if (type === 'int8') {\n            value = buffer.readInt8(offset);\n        } else if (type === 'int16le') {\n            value = buffer.readInt16LE(offset);\n        } else if (type === 'int16be') {\n            value = buffer.readInt16BE(offset);\n        } else if (type === 'int32le') {\n            value = buffer.readInt32LE(offset);\n        } else if (type === 'int32be') {\n            value = buffer.readInt32BE(offset);\n        } else if (type === 'string') {\n            var encoding = field.encoding || 'ascii';\n            value = buffer.toString(encoding, offset, offset + length);\n        } else if (type === 'bytes') {\n            value = buffer.slice(offset, offset + length);\n        } else if (type === 'skip') {\n            continue; // ничего не сохраняем\n        }\n\n        // Для всех полей, кроме skip, добавляем значение в результат\n        // @ts-ignore\n        if (type !== 'skip') {\n            if (!name) {\n                throw new Error(\"Поле с индексом \" + i + \" не имеет имени (и это не skip)\");\n            }\n            result[name] = value;\n        }\n    }\n} catch (err) {\n    node.error(\"Ошибка разбора: \" + err.message, msg);\n    return null;\n}\n\n// Заменяем payload на полученный объект и передаём дальше\nmsg.payload = result;\nreturn msg;",
+			"outputs": 1,
+			"timeout": 0,
+			"noerr": 0,
+			"initialize": "",
+			"finalize": "",
+			"libs": [],
+			"x": 390,
+			"y": 200,
+			"wires": [
+				[
+					"f518fbd774d4bfcb"
+				]
+			]
+		},
+		{
+			"id": "ae6dbea070789109",
+			"type": "function",
+			"z": "e0c1caa793877c9f",
+			"name": "T_COMMON_TIMER",
+			"func": "// Функция для разбора бинарного буфера в JSON\n// Основана на настраиваемой схеме полей (массив `fields`)\n// Поддерживаемые типы:\n//   - uint8, uint16le, uint16be, uint32le, uint32be\n//   - int8, int16le, int16be, int32le, int32be\n//   - string (требует `length` и опционально `encoding`, по умолчанию 'ascii')\n//   - bytes (возвращает Buffer, требует `length`)\n//   - skip (пропускает байты, не создаёт поля)\n\n// ===== НАСТРОЙКА СХЕМЫ =====\nvar fields = [\n    // Примеры (раскомментируйте и измените под свою задачу):\n    // { name: 'header',  offset: 0, type: 'uint8' },\n    // { name: 'length',  offset: 1, type: 'uint16le' },\n    // { name: 'data',    offset: 3, type: 'bytes', length: 10 },\n    // { name: 'message', offset: 13, type: 'string', length: 20, encoding: 'utf8' },\n    // { name: 'checksum',offset: 33, type: 'uint16be' }\n    { name: 'cmd', offset: 2, type: 'uint16le' },\n    { name: 'value', offset: 10, type: 'uint16le' },\n    { name: 'count', offset: 12, type: 'uint16le' },\n    { name: 'mask_wYear', offset: 14, type: 'uint16le' },\n    { name: 'mask_wMonth', offset: 16, type: 'uint16le' },\n    { name: 'mask_wDay', offset: 18, type: 'uint16le' },\n    { name: 'mask_wHour', offset: 22, type: 'uint16le' },\n    { name: 'mask_wMin', offset: 24, type: 'uint16le' },\n    { name: 'mask_wDayOfWeek', offset: 26, type: 'uint16le' },\n    { name: 'cur_wYear', offset: 28, type: 'uint16le' },\n    { name: 'cur_wMonth', offset: 30, type: 'uint16le' },\n    { name: 'cur_wDayOfWeek', offset: 32, type: 'uint16le' },\n    { name: 'cur_wDay', offset: 34, type: 'uint16le' },\n    { name: 'cur_wHour', offset: 36, type: 'uint16le' },\n    { name: 'cur_wMin', offset: 38, type: 'uint16le' },\n    { name: 'cur_wSec', offset: 40, type: 'uint16le' },\n    { name: 'cur_wMil', offset: 42, type: 'uint16le' }\n];\n\nif (!Buffer.isBuffer(msg.payload)) {\n    node.error(\"Входной payload не является Buffer\", msg);\n    return null;\n}\n\nvar buffer = msg.payload;\nvar result = {};\n\ntry {\n    for (var i = 0; i < fields.length; i++) {\n        var field = fields[i];\n        var offset = field.offset;\n        var type = field.type;\n        var name = field.name;\n        var length = field.length; // для string, bytes, skip\n\n        // Определяем размер поля в байтах для проверки границ\n        var size;\n        if (type === 'uint8' || type === 'int8') {\n            size = 1;\n        } else if (type === 'uint16le' || type === 'uint16be' || type === 'int16le' || type === 'int16be') {\n            size = 2;\n        } else if (type === 'uint32le' || type === 'uint32be' || type === 'int32le' || type === 'int32be') {\n            size = 4;\n        } else if (type === 'string' || type === 'bytes' || type === 'skip') {\n            if (length === undefined) {\n                throw new Error(\"Поле '\" + (name || 'skip') + \"' требует указания length\");\n            }\n            size = length;\n        } else {\n            throw new Error(\"Неподдерживаемый тип: \" + type);\n        }\n\n        // Проверяем, что буфер содержит достаточно данных\n        if (offset + size > buffer.length) {\n            throw new Error(\"Буфер слишком короткий для поля '\" + (name || 'skip') + \"' по смещению \" + offset + \" (требуется \" + size + \" байт)\");\n        }\n\n        // Чтение значения\n        var value;\n        if (type === 'uint8') {\n            value = buffer.readUInt8(offset);\n        } else if (type === 'uint16le') {\n            value = buffer.readUInt16LE(offset);\n        } else if (type === 'uint16be') {\n            value = buffer.readUInt16BE(offset);\n        } else if (type === 'uint32le') {\n            value = buffer.readUInt32LE(offset);\n        } else if (type === 'uint32be') {\n            value = buffer.readUInt32BE(offset);\n        } else if (type === 'int8') {\n            value = buffer.readInt8(offset);\n        } else if (type === 'int16le') {\n            value = buffer.readInt16LE(offset);\n        } else if (type === 'int16be') {\n            value = buffer.readInt16BE(offset);\n        } else if (type === 'int32le') {\n            value = buffer.readInt32LE(offset);\n        } else if (type === 'int32be') {\n            value = buffer.readInt32BE(offset);\n        } else if (type === 'string') {\n            var encoding = field.encoding || 'ascii';\n            value = buffer.toString(encoding, offset, offset + length);\n        } else if (type === 'bytes') {\n            value = buffer.slice(offset, offset + length);\n        } else if (type === 'skip') {\n            continue; // ничего не сохраняем\n        }\n\n        // Для всех полей, кроме skip, добавляем значение в результат\n        // @ts-ignore\n        if (type !== 'skip') {\n            if (!name) {\n                throw new Error(\"Поле с индексом \" + i + \" не имеет имени (и это не skip)\");\n            }\n            result[name] = value;\n        }\n    }\n} catch (err) {\n    node.error(\"Ошибка разбора: \" + err.message, msg);\n    return null;\n}\n\n// Заменяем payload на полученный объект и передаём дальше\nmsg.payload = result;\nreturn msg;",
+			"outputs": 1,
+			"timeout": 0,
+			"noerr": 0,
+			"initialize": "",
+			"finalize": "",
+			"libs": [],
+			"x": 440,
+			"y": 260,
+			"wires": [
+				[
+					"f518fbd774d4bfcb"
+				]
+			]
+		},
+		{
+			"id": "9f128b46d782a946",
+			"type": "function",
+			"z": "e0c1caa793877c9f",
+			"name": "T_INTERVAL_TIMER",
+			"func": "// Функция для разбора бинарного буфера в JSON\n// Основана на настраиваемой схеме полей (массив `fields`)\n// Поддерживаемые типы:\n//   - uint8, uint16le, uint16be, uint32le, uint32be\n//   - int8, int16le, int16be, int32le, int32be\n//   - string (требует `length` и опционально `encoding`, по умолчанию 'ascii')\n//   - bytes (возвращает Buffer, требует `length`)\n//   - skip (пропускает байты, не создаёт поля)\n\n// ===== НАСТРОЙКА СХЕМЫ =====\nvar fields = [\n    // Примеры (раскомментируйте и измените под свою задачу):\n    // { name: 'header',  offset: 0, type: 'uint8' },\n    // { name: 'length',  offset: 1, type: 'uint16le' },\n    // { name: 'data',    offset: 3, type: 'bytes', length: 10 },\n    // { name: 'message', offset: 13, type: 'string', length: 20, encoding: 'utf8' },\n    // { name: 'checksum',offset: 33, type: 'uint16be' }\n    { name: 'cmd', offset: 2, type: 'uint16le' },\n    { name: 'value', offset: 10, type: 'uint16le' },\n    { name: 'count', offset: 12, type: 'uint16le' },\n    { name: 'int_wDay', offset: 14, type: 'uint16le' },\n    { name: 'int_wHour', offset: 16, type: 'uint16le' },\n    { name: 'int_wMin', offset: 18, type: 'uint16le' },\n    { name: 'int_wSec', offset: 20, type: 'uint16le' },\n    { name: 'int_wMil', offset: 22, type: 'uint16le' },\n    { name: 'elap_wDay', offset: 24, type: 'uint16le' },\n    { name: 'elap_wHour', offset: 26, type: 'uint16le' },\n    { name: 'elap_wMin', offset: 28, type: 'uint16le' },\n    { name: 'elap_wSec', offset: 30, type: 'uint16le' },\n    { name: 'elap_wMil', offset: 32, type: 'uint16le' },\n    { name: 'rem_wDay', offset: 34, type: 'uint16le' },\n    { name: 'rem_wHour', offset: 36, type: 'uint16le' },\n    { name: 'rem_wMin', offset: 38, type: 'uint16le' },\n    { name: 'rem_wSec', offset: 40, type: 'uint16le' },\n    { name: 'rem_wMil', offset: 42, type: 'uint16le' }\n];\n\nif (!Buffer.isBuffer(msg.payload)) {\n    node.error(\"Входной payload не является Buffer\", msg);\n    return null;\n}\n\nvar buffer = msg.payload;\nvar result = {};\n\ntry {\n    for (var i = 0; i < fields.length; i++) {\n        var field = fields[i];\n        var offset = field.offset;\n        var type = field.type;\n        var name = field.name;\n        var length = field.length; // для string, bytes, skip\n\n        // Определяем размер поля в байтах для проверки границ\n        var size;\n        if (type === 'uint8' || type === 'int8') {\n            size = 1;\n        } else if (type === 'uint16le' || type === 'uint16be' || type === 'int16le' || type === 'int16be') {\n            size = 2;\n        } else if (type === 'uint32le' || type === 'uint32be' || type === 'int32le' || type === 'int32be') {\n            size = 4;\n        } else if (type === 'string' || type === 'bytes' || type === 'skip') {\n            if (length === undefined) {\n                throw new Error(\"Поле '\" + (name || 'skip') + \"' требует указания length\");\n            }\n            size = length;\n        } else {\n            throw new Error(\"Неподдерживаемый тип: \" + type);\n        }\n\n        // Проверяем, что буфер содержит достаточно данных\n        if (offset + size > buffer.length) {\n            throw new Error(\"Буфер слишком короткий для поля '\" + (name || 'skip') + \"' по смещению \" + offset + \" (требуется \" + size + \" байт)\");\n        }\n\n        // Чтение значения\n        var value;\n        if (type === 'uint8') {\n            value = buffer.readUInt8(offset);\n        } else if (type === 'uint16le') {\n            value = buffer.readUInt16LE(offset);\n        } else if (type === 'uint16be') {\n            value = buffer.readUInt16BE(offset);\n        } else if (type === 'uint32le') {\n            value = buffer.readUInt32LE(offset);\n        } else if (type === 'uint32be') {\n            value = buffer.readUInt32BE(offset);\n        } else if (type === 'int8') {\n            value = buffer.readInt8(offset);\n        } else if (type === 'int16le') {\n            value = buffer.readInt16LE(offset);\n        } else if (type === 'int16be') {\n            value = buffer.readInt16BE(offset);\n        } else if (type === 'int32le') {\n            value = buffer.readInt32LE(offset);\n        } else if (type === 'int32be') {\n            value = buffer.readInt32BE(offset);\n        } else if (type === 'string') {\n            var encoding = field.encoding || 'ascii';\n            value = buffer.toString(encoding, offset, offset + length);\n        } else if (type === 'bytes') {\n            value = buffer.slice(offset, offset + length);\n        } else if (type === 'skip') {\n            continue; // ничего не сохраняем\n        }\n\n        // Для всех полей, кроме skip, добавляем значение в результат\n        // @ts-ignore\n        if (type !== 'skip') {\n            if (!name) {\n                throw new Error(\"Поле с индексом \" + i + \" не имеет имени (и это не skip)\");\n            }\n            result[name] = value;\n        }\n    }\n} catch (err) {\n    node.error(\"Ошибка разбора: \" + err.message, msg);\n    return null;\n}\n\n// Заменяем payload на полученный объект и передаём дальше\nmsg.payload = result;\nreturn msg;",
+			"outputs": 1,
+			"timeout": 0,
+			"noerr": 0,
+			"initialize": "",
+			"finalize": "",
+			"libs": [],
+			"x": 440,
+			"y": 320,
+			"wires": [
+				[
+					"f518fbd774d4bfcb"
+				]
+			]
+		}
     ]
 }
