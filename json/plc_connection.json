@@ -48,7 +48,7 @@
     "meta": {
         "module": "plc_connection",
         "type": "PLC connection",
-        "version": "1.3.3",
+        "version": "2.0.1",
         "author": "Anton Shefov <a.shefov@gmail.com>",
         "desc": "Connection to PLC",
         "keywords": "SmartUnity, SU",
@@ -74,325 +74,309 @@
     },
     "flow": [
         {
-            "id": "31aa3f5081482f5e",
-            "type": "inject",
-            "z": "5d465e34932148cf",
-            "name": "",
-            "props": [
-                {
-                    "p": "payload"
-                }
-            ],
-            "repeat": "30",
-            "crontab": "",
-            "once": true,
-            "onceDelay": "0.1",
-            "topic": "",
-            "payload": "true",
-            "payloadType": "bool",
-            "x": 65,
-            "y": 220,
-            "wires": [
-                [
-                    "993767259063d6a9"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "993767259063d6a9",
-            "type": "function",
-            "z": "5d465e34932148cf",
-            "name": "",
-            "func": "var tmp = {};\ntmp.start = 52428;\ntmp.obj=200;\ntmp.to=0;\ntmp.cmd=33;\ntmp.len=0;\ntmp.val=0;\nmsg.payload = tmp;\nreturn msg;",
-            "outputs": 1,
-            "timeout": "",
-            "noerr": 0,
-            "initialize": "",
-            "finalize": "",
-            "libs": [],
-            "x": 200,
-            "y": 220,
-            "wires": [
-                [
-                    "4149af24579f0dc5"
-                ]
-            ]
-        },
-        {
-            "id": "1fa78c3d9b7b6de1",
-            "type": "tcp request",
-            "z": "5d465e34932148cf",
-            "name": "PLC",
-            "server": "",
-            "port": "",
-            "out": "sit",
-            "ret": "buffer",
-            "splitc": " ",
-            "newline": "",
-            "trim": false,
-            "tls": "",
-            "x": 670,
-            "y": 160,
-            "wires": [
-                [
-                    "21b36036d4f32290"
-                ]
-            ]
-        },
-        {
-            "id": "5e4eaca67bbb096b",
-            "type": "status",
-            "z": "5d465e34932148cf",
-            "name": "",
-            "scope": [
-                "1fa78c3d9b7b6de1"
-            ],
-            "x": 580,
-            "y": 300,
-            "wires": [
-                []
-            ]
-        },
-        {
-            "id": "38ae13a46a0113ce",
-            "type": "change",
-            "z": "5d465e34932148cf",
-            "name": "",
-            "rules": [
-                {
-                    "t": "set",
-                    "p": "host",
-                    "pt": "msg",
-                    "to": "HOST",
-                    "tot": "env",
-                    "dc": true
-                },
-                {
-                    "t": "set",
-                    "p": "port",
-                    "pt": "msg",
-                    "to": "400",
-                    "tot": "str"
-                },
-                {
-                    "t": "delete",
-                    "p": "type",
-                    "pt": "msg"
-                },
-                {
-                    "t": "delete",
-                    "p": "object_id",
-                    "pt": "msg"
-                }
-            ],
-            "action": "",
-            "property": "",
-            "from": "",
-            "to": "",
-            "reg": false,
-            "x": 535,
-            "y": 160,
-            "wires": [
-                [
-                    "1fa78c3d9b7b6de1"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "21b36036d4f32290",
-            "type": "split",
-            "z": "5d465e34932148cf",
-            "name": "",
-            "splt": "[204,204]",
-            "spltType": "bin",
-            "arraySplt": 1,
-            "arraySpltType": "len",
-            "stream": false,
-            "addname": "",
-            "property": "payload",
-            "x": 795,
-            "y": 160,
-            "wires": [
-                [
-                    "8f431a015dba44f0"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "4149af24579f0dc5",
-            "type": "binary",
-            "z": "5d465e34932148cf",
-            "name": "",
-            "property": "payload",
-            "pattern": "l16=>start,l16 => obj, l16 => cmd, x16, x16,l16=>len,l16=>val",
-            "x": 410,
-            "y": 160,
-            "wires": [
-                [
-                    "38ae13a46a0113ce"
-                ]
-            ]
-        },
-        {
-            "id": "f76087063cc73ed0",
-            "type": "function",
-            "z": "5d465e34932148cf",
-            "name": "to_SmartUnity",
-            "func": "var tmp = {};\nvar command = 0;\nvar value = 0;\n\nswitch (msg.type) {\n    case \"T_IMPULS_BUTTON\":\n        if (msg.payload) {\n            command = 2;\n        } else {\n            command = 3;\n        }\n        break;\n    case \"T_SWITCH_BUTTON\":\n        command = 6;\n        if (msg.payload) {\n            value = 15;\n        } else {\n            value = 16;\n        }\n        break;\n    case \"T_RELE\":\n        if (msg.payload) {\n            command = 2;\n        } else {\n            command = 3;\n        }\n        break;\n    case \"T_TEMPERATURE_DETECTOR_value\":\n        command = 40;\n        value = Number(msg.payload);\n        break;\n    case \"T_TEMPERATURE_DETECTOR_setpoint\":\n        command = 9;\n        value = Number(msg.payload);\n        break;\n    case \"T_UNIV_AN_INPUT_value\":\n        command = 40;\n        value = Number(msg.payload);\n        break;\n    case \"T_UNIV_AN_INPUT_setpoint\":\n        command = 9;\n        value = Number(msg.payload);\n        break;\n    case \"T_ANALOG_IN_ADVANCED_value\":\n        command = 17;\n        value = Number(msg.payload);\n        break;\n    case \"T_ANALOG_IN_ADVANCED_setpoint\":\n        command = 9;\n        value = Number(msg.payload);\n        break;\n    case \"T_UNIV_AN_OUTPUT\":\n        command = 17;\n        value = Number(msg.payload);\n        break;\n    case \"T_UNIV_AN_OUTPUT_TO_HELP_OBJECT\":\n        command = 17;\n        value = Math.round(Number(msg.payload) / 33) + 1;\n        break;\n    case \"T_HELP_SWITCH\":\n        command = 17;\n        if (msg.payload) {\n            value = 21;\n        } else {\n            value = 22;\n        }\n        break;\n    case \"T_HELP_OBJECT\":\n        command = 17;\n        value = Number(msg.payload);\n        break;\n    case \"T_COMMON_TIMER\":\n        command = 17;\n        if (msg.payload) {\n            value = 21;\n        } else {\n            value = 22;\n        }\n        break;\n    case \"T_INTERVAL_TIMER\":\n        command = 17;\n        if (msg.payload) {\n            value = 21;\n        } else {\n            value = 22;\n        }\n        break;\n    case \"GET_STATUS\":\n        command = 1;\n        break;\n    case \"GET_STATUS_MB\":\n        command = 1;\n        value = Number(msg.payload);\n        break;\n    default:\n        return null;\n}\n\ntmp.start = 52428;\ntmp.obj = msg.object_id;\ntmp.cmd = command;\ntmp.len = 2;\ntmp.val = value;\nmsg.payload = tmp;\nreturn msg;\n",
+			"id": "0cd6f1c700e8b252",
+			"type": "inject",
+			"z": "5d465e34932148cf",
+			"name": "",
+			"props": [
+				{
+					"p": "payload"
+				}
+			],
+			"repeat": "30",
+			"crontab": "",
+			"once": true,
+			"onceDelay": "0.1",
+			"topic": "",
+			"payload": "true",
+			"payloadType": "bool",
+			"x": 65,
+			"y": 220,
+			"wires": [
+				[
+					"c3cb083d22ead125"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "c3cb083d22ead125",
+			"type": "function",
+			"z": "5d465e34932148cf",
+			"name": "",
+			"func": "var tmp = {};\ntmp.start = 52428;\ntmp.obj=200;\ntmp.to=0;\ntmp.cmd=33;\ntmp.len=0;\ntmp.val=0;\nmsg.payload = tmp;\nreturn msg;",
 			"outputs": 1,
-            "timeout": "",
-            "noerr": 0,
-            "initialize": "",
-            "finalize": "",
-            "libs": [],
-            "x": 220,
-            "y": 160,
-            "wires": [
-                [
-                    "4149af24579f0dc5"
-                ]
-            ]
-        },
-        {
-            "id": "8f431a015dba44f0",
-            "type": "switch",
-            "z": "5d465e34932148cf",
-            "name": "",
-            "property": "payload",
-            "propertyType": "msg",
-            "rules": [
-                {
-                    "t": "istype",
-                    "v": "buffer",
-                    "vt": "buffer"
-                }
-            ],
-            "checkall": "true",
-            "repair": false,
-            "outputs": 1,
-            "x": 875,
-            "y": 160,
-            "wires": [
-                [
-                    "4fea97e15f45a76b"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "66812b62563a84da",
-            "type": "change",
-            "z": "5d465e34932148cf",
-            "name": "",
-            "rules": [
-                {
-                    "t": "set",
-                    "p": "topic",
-                    "pt": "msg",
-                    "to": "$string(payload.to)\t",
-                    "tot": "jsonata",
-                    "dc": true
-                },
-                {
-                    "t": "set",
-                    "p": "cmd",
-                    "pt": "msg",
-                    "to": "payload.cmd",
-                    "tot": "msg",
-                    "dc": true
-                },
-                {
-                    "t": "set",
-                    "p": "len",
-                    "pt": "msg",
-                    "to": "payload.len",
-                    "tot": "msg",
-                    "dc": true
-                },
-                {
-                    "t": "set",
-                    "p": "payload",
-                    "pt": "msg",
-                    "to": "original",
-                    "tot": "msg",
-                    "dc": true
-                },
-                {
-                    "t": "delete",
-                    "p": "original",
-                    "pt": "msg"
-                },
-                {
-                    "t": "delete",
-                    "p": "parts",
-                    "pt": "msg"
-                },
-                {
-                    "t": "delete",
-                    "p": "host",
-                    "pt": "msg"
-                },
-                {
-                    "t": "delete",
-                    "p": "port",
-                    "pt": "msg"
-                }
-            ],
-            "action": "",
-            "property": "",
-            "from": "",
-            "to": "",
-            "reg": false,
-            "x": 1195,
-            "y": 160,
-            "wires": [
-                []
-            ],
-            "l": false
-        },
-        {
-            "id": "fbc06a095fed8f5e",
-            "type": "switch",
-            "z": "5d465e34932148cf",
-            "name": "",
-            "property": "payload.len",
-            "propertyType": "msg",
-            "rules": [
-                {
-                    "t": "neq",
-                    "v": "0",
-                    "vt": "num"
-                }
-            ],
-            "checkall": "false",
-            "repair": false,
-            "outputs": 1,
-            "x": 1115,
-            "y": 160,
-            "wires": [
-                [
-                    "66812b62563a84da"
-                ]
-            ],
-            "l": false
-        },
-        {
-            "id": "4fea97e15f45a76b",
-            "type": "binary",
-            "z": "5d465e34932148cf",
-            "name": "",
-            "property": "payload",
-            "pattern": "x16,l16 => cmd, l16=>to, x16,l16=>len",
-            "x": 990,
-            "y": 160,
-            "wires": [
-                [
-                    "fbc06a095fed8f5e"
-                ]
-            ]
-        }
+			"timeout": "",
+			"noerr": 0,
+			"initialize": "",
+			"finalize": "",
+			"libs": [],
+			"x": 200,
+			"y": 220,
+			"wires": [
+				[
+					"fb231c1f9801fa0e"
+				]
+			]
+		},
+		{
+			"id": "481bda67154d530f",
+			"type": "tcp request",
+			"z": "5d465e34932148cf",
+			"name": "PLC",
+			"server": "",
+			"port": "",
+			"out": "sit",
+			"ret": "buffer",
+			"splitc": " ",
+			"newline": "",
+			"trim": false,
+			"tls": "",
+			"x": 670,
+			"y": 160,
+			"wires": [
+				[
+					"329ecfb91171d8a0"
+				]
+			]
+		},
+		{
+			"id": "3f9c34f723d1b220",
+			"type": "status",
+			"z": "5d465e34932148cf",
+			"name": "",
+			"scope": [
+				"481bda67154d530f"
+			],
+			"x": 580,
+			"y": 300,
+			"wires": [
+				[]
+			]
+		},
+		{
+			"id": "2296eb5e84eb57ad",
+			"type": "change",
+			"z": "5d465e34932148cf",
+			"name": "",
+			"rules": [
+				{
+					"t": "set",
+					"p": "host",
+					"pt": "msg",
+					"to": "HOST",
+					"tot": "env",
+					"dc": true
+				},
+				{
+					"t": "set",
+					"p": "port",
+					"pt": "msg",
+					"to": "400",
+					"tot": "str"
+				},
+				{
+					"t": "delete",
+					"p": "type",
+					"pt": "msg"
+				},
+				{
+					"t": "delete",
+					"p": "object_id",
+					"pt": "msg"
+				}
+			],
+			"action": "",
+			"property": "",
+			"from": "",
+			"to": "",
+			"reg": false,
+			"x": 535,
+			"y": 160,
+			"wires": [
+				[
+					"481bda67154d530f"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "329ecfb91171d8a0",
+			"type": "split",
+			"z": "5d465e34932148cf",
+			"name": "",
+			"splt": "[204,204]",
+			"spltType": "bin",
+			"arraySplt": 1,
+			"arraySpltType": "len",
+			"stream": false,
+			"addname": "",
+			"property": "payload",
+			"x": 795,
+			"y": 160,
+			"wires": [
+				[
+					"48f4a7ccdefc5875"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "d2e5e80badda589e",
+			"type": "function",
+			"z": "5d465e34932148cf",
+			"name": "to_SmartUnity",
+			"func": "var tmp = {};\nvar command = 0;\nvar value = 0;\n\nswitch (msg.type) {\n    case \"T_IMPULS_BUTTON\":\n        if (msg.payload) {\n            command = 2;\n        } else {\n            command = 3;\n        }\n        break;\n    case \"T_SWITCH_BUTTON\":\n        command = 6;\n        if (msg.payload) {\n            value = 15;\n        } else {\n            value = 16;\n        }\n        break;\n    case \"T_RELE\":\n        if (msg.payload) {\n            command = 2;\n        } else {\n            command = 3;\n        }\n        break;\n    case \"T_TEMPERATURE_DETECTOR_value\":\n        command = 40;\n        value = Number(msg.payload);\n        break;\n    case \"T_TEMPERATURE_DETECTOR_setpoint\":\n        command = 9;\n        value = Number(msg.payload);\n        break;\n    case \"T_UNIV_AN_INPUT_value\":\n        command = 40;\n        value = Number(msg.payload);\n        break;\n    case \"T_UNIV_AN_INPUT_setpoint\":\n        command = 9;\n        value = Number(msg.payload);\n        break;\n    case \"T_ANALOG_IN_ADVANCED_value\":\n        command = 17;\n        value = Number(msg.payload);\n        break;\n    case \"T_ANALOG_IN_ADVANCED_setpoint\":\n        command = 9;\n        value = Number(msg.payload);\n        break;\n    case \"T_UNIV_AN_OUTPUT\":\n        command = 17;\n        value = Number(msg.payload);\n        break;\n    case \"T_UNIV_AN_OUTPUT_TO_HELP_OBJECT\":\n        command = 17;\n        value = Math.round(Number(msg.payload) / 33) + 1;\n        break;\n    case \"T_HELP_SWITCH\":\n        command = 17;\n        if (msg.payload) {\n            value = 21;\n        } else {\n            value = 22;\n        }\n        break;\n    case \"T_HELP_OBJECT\":\n        command = 17;\n        value = Number(msg.payload);\n        break;\n    case \"T_COMMON_TIMER\":\n        command = 17;\n        if (msg.payload) {\n            value = 21;\n        } else {\n            value = 22;\n        }\n        break;\n    case \"T_INTERVAL_TIMER\":\n        command = 17;\n        if (msg.payload) {\n            value = 21;\n        } else {\n            value = 22;\n        }\n        break;\n    case \"GET_STATUS\":\n        command = 1;\n        break;\n    case \"GET_STATUS_MB\":\n        command = 1;\n        value = Number(msg.payload);\n        break;\n    default:\n        return null;\n}\n\ntmp.start = 52428;\ntmp.obj = msg.object_id;\ntmp.cmd = command;\ntmp.len = 2;\ntmp.val = value;\nmsg.payload = tmp;\nreturn msg;\n",
+			"outputs": 1,
+			"timeout": "",
+			"noerr": 0,
+			"initialize": "",
+			"finalize": "",
+			"libs": [],
+			"x": 220,
+			"y": 160,
+			"wires": [
+				[
+					"fb231c1f9801fa0e"
+				]
+			]
+		},
+		{
+			"id": "69fd783f0e0b9207",
+			"type": "change",
+			"z": "5d465e34932148cf",
+			"name": "",
+			"rules": [
+				{
+					"t": "set",
+					"p": "topic",
+					"pt": "msg",
+					"to": "$string(payload.to)\t",
+					"tot": "jsonata",
+					"dc": true
+				},
+				{
+					"t": "set",
+					"p": "cmd",
+					"pt": "msg",
+					"to": "payload.cmd",
+					"tot": "msg",
+					"dc": true
+				},
+				{
+					"t": "set",
+					"p": "len",
+					"pt": "msg",
+					"to": "payload.len",
+					"tot": "msg",
+					"dc": true
+				},
+				{
+					"t": "set",
+					"p": "payload",
+					"pt": "msg",
+					"to": "original",
+					"tot": "msg",
+					"dc": true
+				},
+				{
+					"t": "delete",
+					"p": "original",
+					"pt": "msg"
+				},
+				{
+					"t": "delete",
+					"p": "parts",
+					"pt": "msg"
+				},
+				{
+					"t": "delete",
+					"p": "host",
+					"pt": "msg"
+				},
+				{
+					"t": "delete",
+					"p": "port",
+					"pt": "msg"
+				}
+			],
+			"action": "",
+			"property": "",
+			"from": "",
+			"to": "",
+			"reg": false,
+			"x": 1195,
+			"y": 160,
+			"wires": [
+				[]
+			],
+			"l": false
+		},
+		{
+			"id": "7511ecbb33ee44cc",
+			"type": "switch",
+			"z": "5d465e34932148cf",
+			"name": "",
+			"property": "payload.len",
+			"propertyType": "msg",
+			"rules": [
+				{
+					"t": "neq",
+					"v": "0",
+					"vt": "num"
+				}
+			],
+			"checkall": "false",
+			"repair": false,
+			"outputs": 1,
+			"x": 1115,
+			"y": 160,
+			"wires": [
+				[
+					"69fd783f0e0b9207"
+				]
+			],
+			"l": false
+		},
+		{
+			"id": "fb231c1f9801fa0e",
+			"type": "function",
+			"z": "5d465e34932148cf",
+			"name": "json_to_buffer",
+			"func": "// Обратная функция: формирование буфера из JSON по схеме полей\n// Используйте ту же схему `fields`, что и для парсинга.\n// Поддерживаемые типы:\n//   - uint8, uint16le, uint16be, uint32le, uint32be\n//   - int8, int16le, int16be, int32le, int32be\n//   - string (требует `length` и опционально `encoding`, по умолчанию 'ascii')\n//   - bytes (ожидает Buffer или массив чисел 0-255, требует `length`)\n//   - skip (пропускает байты, заполняет нулями, не требует значения в JSON)\n\n// ===== НАСТРОЙКА СХЕМЫ =====\n// Заполните массив в соответствии с форматом ваших данных\nvar fields = [\n    // Примеры (раскомментируйте и измените под свою задачу):\n    // { name: 'header',  offset: 0, type: 'uint8' },\n    // { name: 'length',  offset: 1, type: 'uint16le' },\n    // { name: 'data',    offset: 3, type: 'bytes', length: 10 },\n    // { name: 'message', offset: 13, type: 'string', length: 20, encoding: 'utf8' },\n    // { name: 'checksum',offset: 33, type: 'uint16be' }\n    { name: 'start', offset: 0, type: 'uint16le' },\n    { name: 'obj', offset: 2, type: 'uint16le' },\n    { name: 'cmd', offset: 4, type: 'uint16le' },\n    { name: 'len', offset: 10, type: 'uint16le' },\n    { name: 'val', offset: 12, type: 'uint16le' }\n];\n\n// ===== КОД ФУНКЦИИ (не изменять без необходимости) =====\n// Проверка входных данных\nif (!msg.payload || typeof msg.payload !== 'object' || Array.isArray(msg.payload)) {\n    node.error(\"Входной payload должен быть объектом JSON\", msg);\n    return null;\n}\n\nvar json = msg.payload;\n\n// Вычисляем необходимый размер буфера\nvar maxEnd = 0;\nfor (var i = 0; i < fields.length; i++) {\n    var f = fields[i];\n    var size;\n    if (f.type === 'uint8' || f.type === 'int8') size = 1;\n    else if (f.type === 'uint16le' || f.type === 'uint16be' || f.type === 'int16le' || f.type === 'int16be') size = 2;\n    else if (f.type === 'uint32le' || f.type === 'uint32be' || f.type === 'int32le' || f.type === 'int32be') size = 4;\n    else if (f.type === 'string' || f.type === 'bytes' || f.type === 'skip') {\n        if (f.length === undefined) throw new Error(\"Поле '\" + (f.name || 'skip') + \"' требует length\");\n        size = f.length;\n    } else throw new Error(\"Неподдерживаемый тип: \" + f.type);\n\n    var end = f.offset + size;\n    if (end > maxEnd) maxEnd = end;\n}\n\n// Создаём буфер, заполненный нулями\nvar buffer = Buffer.alloc(maxEnd, 0);\n\ntry {\n    for (var i = 0; i < fields.length; i++) {\n        var f = fields[i];\n        var offset = f.offset;\n        var type = f.type;\n        var name = f.name;\n        var length = f.length;\n\n        if (type === 'skip') continue; // ничего не записываем, байты уже нулевые\n\n        // Проверяем наличие поля в JSON\n        if (!json.hasOwnProperty(name)) {\n            throw new Error(\"Отсутствует обязательное поле '\" + name + \"' в JSON\");\n        }\n        var value = json[name];\n\n        // Запись в зависимости от типа\n        if (type === 'uint8') {\n            if (typeof value !== 'number' || !Number.isInteger(value) || value < 0 || value > 255)\n                throw new Error(\"Поле '\" + name + \"' должно быть целым числом от 0 до 255\");\n            buffer.writeUInt8(value, offset);\n        }\n        else if (type === 'uint16le') {\n            if (typeof value !== 'number' || !Number.isInteger(value) || value < 0 || value > 65535)\n                throw new Error(\"Поле '\" + name + \"' должно быть целым числом от 0 до 65535\");\n            buffer.writeUInt16LE(value, offset);\n        }\n        else if (type === 'uint16be') {\n            if (typeof value !== 'number' || !Number.isInteger(value) || value < 0 || value > 65535)\n                throw new Error(\"Поле '\" + name + \"' должно быть целым числом от 0 до 65535\");\n            buffer.writeUInt16BE(value, offset);\n        }\n        else if (type === 'uint32le') {\n            if (typeof value !== 'number' || !Number.isInteger(value) || value < 0 || value > 4294967295)\n                throw new Error(\"Поле '\" + name + \"' должно быть целым числом от 0 до 4294967295\");\n            buffer.writeUInt32LE(value, offset);\n        }\n        else if (type === 'uint32be') {\n            if (typeof value !== 'number' || !Number.isInteger(value) || value < 0 || value > 4294967295)\n                throw new Error(\"Поле '\" + name + \"' должно быть целым числом от 0 до 4294967295\");\n            buffer.writeUInt32BE(value, offset);\n        }\n        else if (type === 'int8') {\n            if (typeof value !== 'number' || !Number.isInteger(value) || value < -128 || value > 127)\n                throw new Error(\"Поле '\" + name + \"' должно быть целым числом от -128 до 127\");\n            buffer.writeInt8(value, offset);\n        }\n        else if (type === 'int16le') {\n            if (typeof value !== 'number' || !Number.isInteger(value) || value < -32768 || value > 32767)\n                throw new Error(\"Поле '\" + name + \"' должно быть целым числом от -32768 до 32767\");\n            buffer.writeInt16LE(value, offset);\n        }\n        else if (type === 'int16be') {\n            if (typeof value !== 'number' || !Number.isInteger(value) || value < -32768 || value > 32767)\n                throw new Error(\"Поле '\" + name + \"' должно быть целым числом от -32768 до 32767\");\n            buffer.writeInt16BE(value, offset);\n        }\n        else if (type === 'int32le') {\n            if (typeof value !== 'number' || !Number.isInteger(value) || value < -2147483648 || value > 2147483647)\n                throw new Error(\"Поле '\" + name + \"' должно быть целым числом от -2147483648 до 2147483647\");\n            buffer.writeInt32LE(value, offset);\n        }\n        else if (type === 'int32be') {\n            if (typeof value !== 'number' || !Number.isInteger(value) || value < -2147483648 || value > 2147483647)\n                throw new Error(\"Поле '\" + name + \"' должно быть целым числом от -2147483648 до 2147483647\");\n            buffer.writeInt32BE(value, offset);\n        }\n        else if (type === 'string') {\n            if (typeof value !== 'string')\n                throw new Error(\"Поле '\" + name + \"' должно быть строкой\");\n            var encoding = f.encoding || 'ascii';\n            var byteLen = Buffer.byteLength(value, encoding);\n            if (byteLen > length)\n                throw new Error(\"Строка поля '\" + name + \"' слишком длинная (макс. \" + length + \" байт в кодировке \" + encoding + \")\");\n            buffer.write(value, offset, length, encoding);\n        }\n        else if (type === 'bytes') {\n            // Принимаем Buffer или массив чисел\n            if (!Buffer.isBuffer(value)) {\n                if (Array.isArray(value) && value.every(v => typeof v === 'number' && v >= 0 && v <= 255 && Number.isInteger(v))) {\n                    value = Buffer.from(value);\n                } else {\n                    throw new Error(\"Поле '\" + name + \"' должно быть Buffer или массивом байт (0-255)\");\n                }\n            }\n            if (value.length !== length)\n                throw new Error(\"Длина поля '\" + name + \"' должна быть ровно \" + length + \" байт\");\n            value.copy(buffer, offset, 0, length);\n        }\n        else {\n            throw new Error(\"Внутренняя ошибка: неподдерживаемый тип \" + type);\n        }\n    }\n} catch (err) {\n    //node.error(\"Ошибка формирования буфера: \" + err.message, msg);\n    return null;\n}\n\n// Возвращаем буфер\nmsg.payload = buffer;\nreturn msg;",
+			"outputs": 1,
+			"timeout": 0,
+			"noerr": 0,
+			"initialize": "",
+			"finalize": "",
+			"libs": [],
+			"x": 420,
+			"y": 160,
+			"wires": [
+				[
+					"2296eb5e84eb57ad"
+				]
+			]
+		},
+		{
+			"id": "48f4a7ccdefc5875",
+			"type": "function",
+			"z": "5d465e34932148cf",
+			"name": "buffer_to_json",
+			"func": "// Пользовательская функция для разбора бинарного буфера в JSON\n// Основана на настраиваемой схеме полей (массив `fields`)\n// Поддерживаемые типы:\n//   - uint8, uint16le, uint16be, uint32le, uint32be\n//   - int8, int16le, int16be, int32le, int32be\n//   - string (требует `length` и опционально `encoding`, по умолчанию 'ascii')\n//   - bytes (возвращает Buffer, требует `length`)\n//   - skip (пропускает байты, не создаёт поля)\n\n// ===== НАСТРОЙКА СХЕМЫ =====\nvar fields = [\n    // Примеры (раскомментируйте и измените под свою задачу):\n    // { name: 'header',  offset: 0, type: 'uint8' },\n    // { name: 'length',  offset: 1, type: 'uint16le' },\n    // { name: 'data',    offset: 3, type: 'bytes', length: 10 },\n    // { name: 'message', offset: 13, type: 'string', length: 20, encoding: 'utf8' },\n    // { name: 'checksum',offset: 33, type: 'uint16be' }\n    { name: 'cmd', offset: 2, type: 'uint16le' },\n    { name: 'to', offset: 4, type: 'uint16le' },\n    { name: 'len', offset: 8, type: 'uint16le' }\n];\n\nif (!Buffer.isBuffer(msg.payload)) {\n    node.error(\"Входной payload не является Buffer\", msg);\n    return null;\n}\n\nvar buffer = msg.payload;\nvar result = {};\n\ntry {\n    for (var i = 0; i < fields.length; i++) {\n        var field = fields[i];\n        var offset = field.offset;\n        var type = field.type;\n        var name = field.name;\n        var length = field.length; // для string, bytes, skip\n\n        // Определяем размер поля в байтах для проверки границ\n        var size;\n        if (type === 'uint8' || type === 'int8') {\n            size = 1;\n        } else if (type === 'uint16le' || type === 'uint16be' || type === 'int16le' || type === 'int16be') {\n            size = 2;\n        } else if (type === 'uint32le' || type === 'uint32be' || type === 'int32le' || type === 'int32be') {\n            size = 4;\n        } else if (type === 'string' || type === 'bytes' || type === 'skip') {\n            if (length === undefined) {\n                throw new Error(\"Поле '\" + (name || 'skip') + \"' требует указания length\");\n            }\n            size = length;\n        } else {\n            throw new Error(\"Неподдерживаемый тип: \" + type);\n        }\n\n        // Проверяем, что буфер содержит достаточно данных\n        if (offset + size > buffer.length) {\n            throw new Error(\"Буфер слишком короткий для поля '\" + (name || 'skip') + \"' по смещению \" + offset + \" (требуется \" + size + \" байт)\");\n        }\n\n        // Чтение значения\n        var value;\n        if (type === 'uint8') {\n            value = buffer.readUInt8(offset);\n        } else if (type === 'uint16le') {\n            value = buffer.readUInt16LE(offset);\n        } else if (type === 'uint16be') {\n            value = buffer.readUInt16BE(offset);\n        } else if (type === 'uint32le') {\n            value = buffer.readUInt32LE(offset);\n        } else if (type === 'uint32be') {\n            value = buffer.readUInt32BE(offset);\n        } else if (type === 'int8') {\n            value = buffer.readInt8(offset);\n        } else if (type === 'int16le') {\n            value = buffer.readInt16LE(offset);\n        } else if (type === 'int16be') {\n            value = buffer.readInt16BE(offset);\n        } else if (type === 'int32le') {\n            value = buffer.readInt32LE(offset);\n        } else if (type === 'int32be') {\n            value = buffer.readInt32BE(offset);\n        } else if (type === 'string') {\n            var encoding = field.encoding || 'ascii';\n            value = buffer.toString(encoding, offset, offset + length);\n        } else if (type === 'bytes') {\n            value = buffer.slice(offset, offset + length);\n        } else if (type === 'skip') {\n            continue; // ничего не сохраняем\n        }\n\n        // Для всех полей, кроме skip, добавляем значение в результат\n        // @ts-ignore\n        if (type !== 'skip') {\n            if (!name) {\n                throw new Error(\"Поле с индексом \" + i + \" не имеет имени (и это не skip)\");\n            }\n            result[name] = value;\n        }\n    }\n} catch (err) {\n    //node.error(\"Ошибка разбора: \" + err.message, msg);\n    return null;\n}\n\n// Заменяем payload на полученный объект и передаём дальше\nmsg.payload = result;\nmsg.original = buffer;\nreturn msg;",
+			"outputs": 1,
+			"timeout": 0,
+			"noerr": 0,
+			"initialize": "",
+			"finalize": "",
+			"libs": [],
+			"x": 960,
+			"y": 160,
+			"wires": [
+				[
+					"7511ecbb33ee44cc"
+				]
+			]
+		}
     ]
 }
